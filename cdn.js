@@ -2241,11 +2241,7 @@ class ie {
       : oe.parse(t, e, r);
   }
   static callMe(t) {
-    if (
-      ((t.message +=
-        "\nPlease report this to https://github.com/ts-stack/markdown"),
-      this.options.silent)
-    )
+    if (((t.message += ""), this.options.silent))
       return (
         "<p>An error occured:</p><pre>" +
         this.options.escape(t.message + "", !0) +

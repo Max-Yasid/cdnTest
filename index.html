@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    html5
+    <script type="module">
+      import Chatbot from "https://cdn.jsdelivr.net/gh/Max-Yasid/cdnTest/cdn.min.js";
+      Chatbot.init({
+        chatflowid: "53f9cadf-9685-44f2-92b4-19be11248274",
+        apiHost: "https://api-whatsapp-dev.mibot.cl:7070",
+      });
+      async function query(data) {
+        const response = await fetch(
+          "https://api-whatsapp-dev.mibot.cl:7070/v1/internal-prediction/53f9cadf-9685-44f2-92b4-19be11248274",
+          {
+            method: "POST",
+            body: data,
+          }
+        );
+        const result = await response.json();
+        return result;
+      }
+
+      query({ question: "Hey, how are you?" }).then((response) => {
+        console.log(response);
+      });
+    </script>
+  </body>
+</html>
