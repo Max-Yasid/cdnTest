@@ -65,4 +65,4 @@ class Chatbot {
     classComponents.forEach((c) => customElements.define(c.tag, c));
   }
 }
-export const chatbot = new Chatbot();
+export default new Chatbot();
