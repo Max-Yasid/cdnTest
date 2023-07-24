@@ -4,13 +4,17 @@ import {
   BubbleIconToggler,
   BubbleIconTogglerStyles,
 } from "./components/bubble/bubbleIconToggler";
-import { ChatContainer } from "./components/chat/chatContainer";
+import {
+  ChatContainer,
+  chatContainerStyles,
+} from "./components/chat/chatContainer";
 import { chatMessage, chatMessageStyles } from "./components/chat/chatMessage";
 import { ChatInput, ChatInputStyles } from "./components/chat/chatInput";
 import { Box } from "./components/box/box";
 
 import { appConfig } from "./app-state/config";
-import { widgetTheme } from "./app-state/theme";
+import { theme } from "./app-state/theme";
+import { addInlineStylesToElement } from "./utils/addInlineStyles";
 
 class Chatbot {
   messages = [];
@@ -24,35 +28,37 @@ class Chatbot {
       Box
     );
   }
-  setConfig({ chatflow, theme: { typography, colors } }) {
+  setConfig({ chatflow, theme: customTheme }) {
     appConfig.chatflowID = chatflow;
 
-    if (typography) widgetTheme.typography = typography;
-    console.log(chatflow, appConfig);
+    if (!customTheme) return;
+    const { typography, colors } = customTheme;
+
+    if (typography)
+      Object.keys(typography).forEach(
+        (typo) => (theme.colors[typo] = colors[typo])
+      );
+
+    if (colors)
+      Object.keys(colors).forEach(
+        (color) => (theme.colors[color] = colors[color])
+      );
   }
 
   init() {
     const widgetContainer = new WidgetContainer();
 
-    const chatIconToggler = new BubbleIconToggler();
-    const chatContainer = new ChatContainer();
-
-    this.registerStyles({
-      widget: widgetContainer,
-      styles: [BubbleIconTogglerStyles, chatMessageStyles, ChatInputStyles],
+    addInlineStylesToElement({
+      element: widgetContainer,
+      styles: [
+        BubbleIconTogglerStyles,
+        chatContainerStyles,
+        chatMessageStyles,
+        ChatInputStyles,
+      ],
     });
 
-    chatIconToggler.onclick = () => chatContainer.toggle();
-
-    widgetContainer.appendChild(chatIconToggler);
-    widgetContainer.appendChild(chatContainer);
-
     document.body.appendChild(widgetContainer);
-  }
-
-  registerStyles({ widget, styles }) {
-    const mergedStyles = styles.reduce((acc, ms) => ({ ...acc, ...ms }), {});
-    widget.addStyles(mergedStyles);
   }
 
   registerComponents(...classComponents) {

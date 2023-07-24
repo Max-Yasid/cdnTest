@@ -1,9 +1,9 @@
-import { transformStyles } from "../utils/transformStyles";
+import { BubbleIconToggler } from "./bubble/bubbleIconToggler";
+import { ChatContainer } from "./chat/chatContainer";
+
 import { WebComponent } from "./webComponent";
 
 class widgetContainer extends WebComponent {
-  tag = widgetContainer.tag;
-
   componentStyles = {
     display: "inline-block",
     position: "absolute",
@@ -13,17 +13,17 @@ class widgetContainer extends WebComponent {
 
   constructor() {
     super();
-    this.addStyles({ [this.tag]: this.componentStyles });
+    const chatIconToggler = new BubbleIconToggler();
+    const chatContainer = new ChatContainer();
+
+    chatIconToggler.onclick = () => chatContainer.toggle();
+
+    this.appendChild(chatIconToggler);
+    this.appendChild(chatContainer);
+
+    this.setStyles(this.componentStyles);
   }
 
-  addStyles(styles) {
-    const selectors = Object.keys(styles);
-    let result = "";
-    selectors.forEach((s) => (result += transformStyles(s, styles[s])));
-    let styleElement = document.createElement("style");
-    styleElement.innerHTML = result;
-    this.prepend(styleElement);
-  }
   connectedCallback() {}
 }
 

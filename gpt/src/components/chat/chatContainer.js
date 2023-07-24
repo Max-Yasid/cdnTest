@@ -41,6 +41,7 @@ export class ChatContainer extends WebComponent {
       flexDirection: "column",
       gap: "10px",
       padding: "10px 0",
+      overflowY: "scroll",
     });
 
     this.chatInput.onSubmit(this.onSubmit.bind(this));
@@ -65,13 +66,18 @@ export class ChatContainer extends WebComponent {
 
       sendMessage(payload).then((apiMessage) => {
         if (!apiMessage.success) throw new Error(apiMessage.msg);
-        if (apiMessage.data.process.length) {
+
+        if (apiMessage.data.process.length)
           apiMessage.data.process.forEach((process) => {
             this.addMessages([
-              { message: process.content, type: process.role },
+              {
+                message: process.content,
+                type: process.role,
+                name: process.name,
+              },
             ]);
           });
-        }
+
         this.addMessages([
           { message: apiMessage.data.answer, type: "apiMessage" },
         ]);
@@ -99,4 +105,20 @@ export class ChatContainer extends WebComponent {
   }
 }
 
+export const chatContainerStyles = {
+  [`${ChatContainer.tag}::-webkit-scrollbar-track`]: {
+    "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.3)",
+    "border-radius": "10px",
+    "background-color": "#F5F5F5",
+  },
+  [`${ChatContainer.tag}::-webkit-scrollbar`]: {
+    width: "12px",
+    "background-color": "#F5F5F5",
+  },
+  [`${ChatContainer.tag}::-webkit-scrollbar-thumb`]: {
+    "border-radius": "10px",
+    "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,.3)",
+    "background-color": " #D62929",
+  },
+};
 ChatContainer.tag = "onbotgo-chatcontainer";
