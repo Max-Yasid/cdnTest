@@ -15,6 +15,7 @@ import { Box } from "./components/box/box";
 import { appConfig } from "./app-state/config";
 import { theme } from "./app-state/theme";
 import { addInlineStylesToElement } from "./utils/addInlineStyles";
+import { CustomScrollBar } from "./components/scrollbar/customScrollbar";
 
 class Chatbot {
   messages = [];
@@ -25,7 +26,8 @@ class Chatbot {
       ChatContainer,
       chatMessage,
       ChatInput,
-      Box
+      Box,
+      CustomScrollBar
     );
   }
   setConfig({ chatflow, theme: customTheme }) {
@@ -62,7 +64,8 @@ class Chatbot {
   }
 
   registerComponents(...classComponents) {
-    classComponents.forEach((c) => customElements.define(c.tag, c));
+    classComponents.forEach((comp) => customElements.define(comp.tag, comp));
   }
 }
-export default new Chatbot();
+
+export const chatbot = new Chatbot();

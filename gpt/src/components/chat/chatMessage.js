@@ -66,5 +66,3 @@ export const chatMessageStyles = {
     "background-color": theme.colors.primary,
   },
 };
-
-console.log(chatMessageStyles);
