@@ -8,11 +8,20 @@
   <body>
     <div id="app"></div>
     <script type="module">
-      // import chatbot from "https://cdn.jsdelivr.net/gh/Max-Yasid/cdnTest/gpt/dist/onbotgo_gpt.min.js";
-      import { chatbot } from "./src/main";
+      // import { Chatbot } from "https://cdn.jsdelivr.net/gh/Max-Yasid/cdnTest/gpt/dist/onbotgo_gpt.min.js";
+      import { Chatbot } from "./src/main";
 
-      chatbot.setConfig({
+      const chatbot = new Chatbot({
+        //PARÁMETRPS REQUERIDOS
         chatflow: "53f9cadf-9685-44f2-92b4-19be11248274",
+
+        //PARÁMETROS OPCIONALES
+        theme: {
+          typography: { primary: "'Trebuchet MS', sans-serif" }, // Valor por defecto
+          colors: {
+            primary: "rgb(59, 129, 246)", // Valor por defecto
+          },
+        },
       });
 
       chatbot.init();

@@ -2,14 +2,14 @@ import WidgetContainer from "./components/widgetContainer";
 
 import {
   BubbleIconToggler,
-  BubbleIconTogglerStyles,
+  getBubbleIconTogglerStyles,
 } from "./components/bubble/bubbleIconToggler";
+import { ChatContainer } from "./components/chat/chatContainer";
 import {
-  ChatContainer,
-  chatContainerStyles,
-} from "./components/chat/chatContainer";
-import { chatMessage, chatMessageStyles } from "./components/chat/chatMessage";
-import { ChatInput, ChatInputStyles } from "./components/chat/chatInput";
+  chatMessage,
+  getChatMessageStyles,
+} from "./components/chat/chatMessage";
+import { ChatInput, getChatInputStyles } from "./components/chat/chatInput";
 import { Box } from "./components/box/box";
 
 import { appConfig } from "./app-state/config";
@@ -17,20 +17,8 @@ import { theme } from "./app-state/theme";
 import { addInlineStylesToElement } from "./utils/addInlineStyles";
 import { CustomScrollBar } from "./components/scrollbar/customScrollbar";
 
-class Chatbot {
-  messages = [];
-  constructor() {
-    this.registerComponents(
-      WidgetContainer,
-      BubbleIconToggler,
-      ChatContainer,
-      chatMessage,
-      ChatInput,
-      Box,
-      CustomScrollBar
-    );
-  }
-  setConfig({ chatflow, theme: customTheme }) {
+export class Chatbot {
+  constructor({ chatflow, theme: customTheme }) {
     appConfig.chatflowID = chatflow;
 
     if (!customTheme) return;
@@ -38,7 +26,7 @@ class Chatbot {
 
     if (typography)
       Object.keys(typography).forEach(
-        (typo) => (theme.colors[typo] = colors[typo])
+        (typo) => (theme.typography[typo] = typography[typo])
       );
 
     if (colors)
@@ -48,15 +36,24 @@ class Chatbot {
   }
 
   init() {
+    this.registerComponents(
+      WidgetContainer,
+      BubbleIconToggler,
+      ChatContainer,
+      chatMessage,
+      ChatInput,
+      Box,
+      CustomScrollBar
+    );
+
     const widgetContainer = new WidgetContainer();
 
     addInlineStylesToElement({
       element: widgetContainer,
       styles: [
-        BubbleIconTogglerStyles,
-        chatContainerStyles,
-        chatMessageStyles,
-        ChatInputStyles,
+        getBubbleIconTogglerStyles(theme),
+        getChatMessageStyles(theme),
+        getChatInputStyles(theme),
       ],
     });
 
@@ -67,5 +64,3 @@ class Chatbot {
     classComponents.forEach((comp) => customElements.define(comp.tag, comp));
   }
 }
-
-export const chatbot = new Chatbot();

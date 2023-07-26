@@ -1,7 +1,8 @@
 import { WebComponent } from "../webComponent";
 
+const tag = "onbotgo-bubble";
+
 export class BubbleIconToggler extends WebComponent {
-  tag = BubbleIconToggler.tag;
   constructor() {
     super();
 
@@ -11,29 +12,29 @@ export class BubbleIconToggler extends WebComponent {
   }
 }
 
-BubbleIconToggler.tag = "onbotgo-bubble";
+BubbleIconToggler.tag = tag;
 
-export const BubbleIconTogglerStyles = {
-  [BubbleIconToggler.tag]: {
+export const getBubbleIconTogglerStyles = (theme) => ({
+  [tag]: {
     display: "grid",
     "place-items": "center",
     width: "48px",
     height: "48px",
-    "background-color": "rgb(59, 129, 246)",
+    "background-color": theme.colors.primary,
     fill: "transparent",
     "border-radius": "100px",
     transition: "transform 0.1s linear",
   },
 
-  [`${BubbleIconToggler.tag}:hover`]: {
+  [`${tag}:hover`]: {
     transform: "scale(1.1)",
   },
 
-  [`${BubbleIconToggler.tag} > svg`]: {
+  [`${tag} > svg`]: {
     width: "28px",
     height: "28px",
     stroke: "white",
     "stroke-width": "2px",
     "border-image-width": "2",
   },
-};
+});

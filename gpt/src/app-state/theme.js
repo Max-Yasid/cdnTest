@@ -1,6 +1,6 @@
 class widgetTheme {
   typography = {
-    primary: "Inter",
+    primary: "'Trebuchet MS', sans-serif",
   };
   colors = { primary: "rgb(59, 129, 246)" };
 }

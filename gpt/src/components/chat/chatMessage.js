@@ -2,6 +2,7 @@ import { WebComponent } from "../webComponent";
 import { Box } from "../box/box";
 import { theme } from "../../app-state/theme";
 
+const tag = "onbotgo-chatmessage";
 export class chatMessage extends WebComponent {
   messageBox = new Box();
 
@@ -27,7 +28,6 @@ export class chatMessage extends WebComponent {
       display: "flex",
       alignItems: "center",
       padding: "15px 15px",
-      maxWidth: "80%",
       fontFamily: theme.typography.primary,
       color: message.type === "userMessage" ? "white" : "black",
     });
@@ -44,25 +44,30 @@ export class chatMessage extends WebComponent {
   }
 }
 
-chatMessage.tag = "onbotgo-chatmessage";
+chatMessage.tag = tag;
 
-export const chatMessageStyles = {
-  [`${chatMessage.tag} > .from-chatbot`]: {
+export const getChatMessageStyles = (theme) => ({
+  [`${tag} > .from-chatbot`]: {
     width: "100%",
     content: "",
     overflow: "hidden",
     position: "relative",
+    "max-width": "75%",
+    "z-index": 1,
   },
-  [`${chatMessage.tag} > .from-chatbot > .bg-semi-transp`]: {
+  [`${tag} > .from-chatbot > .bg-semi-transp`]: {
     position: "absolute",
     width: "100%",
     height: "100%",
     opacity: ".1",
     top: 0,
+    "z-index": "-1",
     left: 0,
     "background-color": theme.colors.primary,
   },
   [`${chatMessage.tag} > .from-user`]: {
+    "margin-right": "15px",
+    "max-width": "70%",
     "background-color": theme.colors.primary,
   },
-};
+});

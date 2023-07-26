@@ -5,8 +5,8 @@ import { chatMessage } from "./chatMessage";
 import { sendMessage } from "../../api/sendMessage";
 import { CustomScrollBar } from "../scrollbar/customScrollbar";
 
+const tag = "onbotgo-chatcontainer";
 export class ChatContainer extends WebComponent {
-  tag = ChatContainer.tag;
   messagesHistory = [
     {
       message: "¡Hola! ¿En qué puedo ayudarte hoy?",
@@ -38,19 +38,21 @@ export class ChatContainer extends WebComponent {
     this.setStyles(this.defaultStyles);
     this.messagesContainer.id = "onbotgo-messageContainer";
     this.scrollBar["data-target-id"] = "scrollableElement";
+    this.scrollBar.style.visibility = "hidden";
     this.scrollableContainer.appendChild(this.scrollBar);
     this.scrollableContainer.appendChild(this.messagesContainer);
     this.scrollableContainer.setStyles({
       height: "88%",
       position: "relative",
       overflow: "hidden",
+      marginBottom: "15px",
     });
     this.messagesContainer.setStyles({
-      height: "100%",
+      height: "calc(100% - 1.5rem)",
       position: "relative",
       display: "flex",
       flexDirection: "column",
-      gap: "10px",
+      gap: "15px",
       position: "relative",
       padding: "1rem",
     });
@@ -98,8 +100,15 @@ export class ChatContainer extends WebComponent {
   }
 
   toggle() {
-    this.style.visibility =
-      this.style.visibility === "visible" ? "hidden" : "visible";
+    if (this.style.visibility === "visible") {
+      this.scrollBar.style.visibility = "hidden";
+      this.style.visibility = "hidden";
+    } else {
+      this.style.visibility = "visible";
+
+      if (this.messagesContainer.scrollTop > 0)
+        this.scrollBar.style.visibility = "visible";
+    }
   }
 
   renderMessages(messages) {
@@ -113,24 +122,19 @@ export class ChatContainer extends WebComponent {
   addMessages(messages) {
     this.messagesHistory = this.messagesHistory.concat(messages);
     this.renderMessages(messages);
+    this.updateScrollbar();
+  }
+
+  updateScrollbar() {
     this.scrollBar.setScrollThumbHeight();
+    this.messagesContainer.scrollTo(0, this.messagesContainer.scrollHeight);
+    console.log(this.messagesContainer.scrollTop, this.scrollBar.style.display);
+    if (
+      this.messagesContainer.scrollTop > 0 &&
+      this.scrollBar.style.visibility === "hidden"
+    )
+      this.scrollBar.style.visibility = "visible";
   }
 }
 
-export const chatContainerStyles = {
-  // [`${ChatContainer.tag}::-webkit-scrollbar-track`]: {
-  //   "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.3)",
-  //   "border-radius": "10px",
-  //   "background-color": "#F5F5F5",
-  // },
-  // [`${ChatContainer.tag}::-webkit-scrollbar`]: {
-  //   width: "12px",
-  //   "background-color": "#F5F5F5",
-  // },
-  // [`${ChatContainer.tag}::-webkit-scrollbar-thumb`]: {
-  //   "border-radius": "10px",
-  //   "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,.3)",
-  //   "background-color": " #D62929",
-  // },
-};
-ChatContainer.tag = "onbotgo-chatcontainer";
+ChatContainer.tag = tag;
