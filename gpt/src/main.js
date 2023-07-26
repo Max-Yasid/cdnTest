@@ -4,7 +4,11 @@ import {
   BubbleIconToggler,
   getBubbleIconTogglerStyles,
 } from "./components/bubble/bubbleIconToggler";
-import { ChatContainer } from "./components/chat/chatContainer";
+import {
+  ChatContainer,
+  getChatContainerAnimations,
+  getChatContainerStyles,
+} from "./components/chat/chatContainer";
 import {
   chatMessage,
   getChatMessageStyles,
@@ -54,7 +58,9 @@ export default class Chatbot {
         getBubbleIconTogglerStyles(theme),
         getChatMessageStyles(theme),
         getChatInputStyles(theme),
+        getChatContainerStyles(),
       ],
+      animations: [getChatContainerAnimations()],
     });
 
     document.body.appendChild(widgetContainer);

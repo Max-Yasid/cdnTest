@@ -19,7 +19,6 @@ export class ChatContainer extends WebComponent {
   scrollBar = new CustomScrollBar();
 
   defaultStyles = {
-    visibility: "visible",
     bottom: "60px",
     right: "10px",
     position: "absolute",
@@ -35,6 +34,7 @@ export class ChatContainer extends WebComponent {
 
   constructor() {
     super();
+    this.classList.add("hidden");
     this.setStyles(this.defaultStyles);
     this.messagesContainer.id = "onbotgo-messageContainer";
     this.scrollBar["data-target-id"] = "scrollableElement";
@@ -100,11 +100,11 @@ export class ChatContainer extends WebComponent {
   }
 
   toggle() {
-    if (this.style.visibility === "visible") {
+    if (this.classList.contains("hidden")) {
       this.scrollBar.style.visibility = "hidden";
-      this.style.visibility = "hidden";
+      this.classList.remove("hidden");
     } else {
-      this.style.visibility = "visible";
+      this.classList.add("hidden");
 
       if (this.messagesContainer.scrollTop > 0)
         this.scrollBar.style.visibility = "visible";
@@ -128,7 +128,6 @@ export class ChatContainer extends WebComponent {
   updateScrollbar() {
     this.scrollBar.setScrollThumbHeight();
     this.messagesContainer.scrollTo(0, this.messagesContainer.scrollHeight);
-    console.log(this.messagesContainer.scrollTop, this.scrollBar.style.display);
     if (
       this.messagesContainer.scrollTop > 0 &&
       this.scrollBar.style.visibility === "hidden"
@@ -136,5 +135,118 @@ export class ChatContainer extends WebComponent {
       this.scrollBar.style.visibility = "visible";
   }
 }
+export const getChatContainerStyles = () => ({
+  [`${tag}.hidden`]: {
+    visibility: "hidden",
+    // "-webkit-animation": "onbotgo-bounce-in-fwd 0.7s ease-in both",
+    // animation: "onbotgo-bounce-in-fwd 0.7s ease-in both",
+  },
+});
+export const getChatContainerAnimations = () => ({
+  // "@-webkit-keyframes onbotgo-bounce-in-fwd": {
+  //   "0%": `{
+  //     -webkit-transform: scale(0);
+  //             transform: scale(0);
+  //     -webkit-animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //     opacity: 0;
+  //   }`,
+  //   "38%": `{
+  //     -webkit-transform: scale(1);
+  //             transform: scale(1);
+  //     -webkit-animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //     opacity: 1;
+  //   }`,
+  //   "55%": `{
+  //     -webkit-transform: scale(0.7);
+  //             transform: scale(0.7);
+  //     -webkit-animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //   }`,
+  //   "72%": `{
+  //     -webkit-transform: scale(1);
+  //             transform: scale(1);
+  //     -webkit-animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //   }`,
+  //   "81%": `{
+  //     -webkit-transform: scale(0.84);
+  //             transform: scale(0.84);
+  //     -webkit-animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //   }`,
+  //   "89%": `{
+  //     -webkit-transform: scale(1);
+  //             transform: scale(1);
+  //     -webkit-animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //   }`,
+  //   "95%": `{
+  //     -webkit-transform: scale(0.95);
+  //             transform: scale(0.95);
+  //     -webkit-animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //   }`,
+  //   "100%": `{
+  //     -webkit-transform: scale(1);
+  //             transform: scale(1);
+  //     -webkit-animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //   }`,
+  // },
+  // "@keyframes onbotgo-bounce-in-fwd": {
+  //   "0%": `{
+  //     transform: scale(0);
+  //             transform: scale(0);
+  //     animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //     opacity: 0;
+  //   }`,
+  //   "38%": `{
+  //     transform: scale(1);
+  //             transform: scale(1);
+  //     animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //     opacity: 1;
+  //   }`,
+  //   "55%": `{
+  //     transform: scale(0.7);
+  //             transform: scale(0.7);
+  //     animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //   }`,
+  //   "72%": `{
+  //     transform: scale(1);
+  //             transform: scale(1);
+  //     animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //   }`,
+  //   "81%": `{
+  //     transform: scale(0.84);
+  //             transform: scale(0.84);
+  //     animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //   }`,
+  //   "89%": `{
+  //     transform: scale(1);
+  //             transform: scale(1);
+  //     animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //   }`,
+  //   "95%": `{
+  //     transform: scale(0.95);
+  //             transform: scale(0.95);
+  //     animation-timing-function: ease-in;
+  //             animation-timing-function: ease-in;
+  //   }`,
+  //   "100%": `{
+  //     transform: scale(1);
+  //             transform: scale(1);
+  //     animation-timing-function: ease-out;
+  //             animation-timing-function: ease-out;
+  //   }`,
+  // },
+});
 
 ChatContainer.tag = tag;
