@@ -17,7 +17,7 @@ import { theme } from "./app-state/theme";
 import { addInlineStylesToElement } from "./utils/addInlineStyles";
 import { CustomScrollBar } from "./components/scrollbar/customScrollbar";
 
-export class Chatbot {
+export default class Chatbot {
   constructor({ chatflow, theme: customTheme }) {
     appConfig.chatflowID = chatflow;
 
