@@ -19,6 +19,7 @@ export class ChatInput extends WebComponent {
     super();
     this.setStyles(this.defaultStyles);
     this.input;
+    this.input.style.maxWidth = "calc(100vw - 129px - 0px)";
     this.input.type = "text";
     this.input.placeholder = "Escribe un mensaje";
 

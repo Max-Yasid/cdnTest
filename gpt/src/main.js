@@ -6,7 +6,6 @@ import {
 } from "./components/bubble/bubbleIconToggler";
 import {
   ChatContainer,
-  getChatContainerAnimations,
   getChatContainerStyles,
 } from "./components/chat/chatContainer";
 import {
@@ -26,7 +25,7 @@ export default class Chatbot {
     appConfig.chatflowID = chatflow;
 
     if (!customTheme) return;
-    const { typography, colors } = customTheme;
+    const { typography, colors, icon } = customTheme;
 
     if (typography)
       Object.keys(typography).forEach(
@@ -37,6 +36,9 @@ export default class Chatbot {
       Object.keys(colors).forEach(
         (color) => (theme.colors[color] = colors[color])
       );
+    
+    if(icon)
+    theme.customIcon = icon
   }
 
   init() {
@@ -60,7 +62,6 @@ export default class Chatbot {
         getChatInputStyles(theme),
         getChatContainerStyles(),
       ],
-      animations: [getChatContainerAnimations()],
     });
 
     document.body.appendChild(widgetContainer);

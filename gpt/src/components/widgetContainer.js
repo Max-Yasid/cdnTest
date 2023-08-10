@@ -1,3 +1,4 @@
+import { theme } from "../app-state/theme";
 import { BubbleIconToggler } from "./bubble/bubbleIconToggler";
 import { ChatContainer } from "./chat/chatContainer";
 
@@ -13,7 +14,7 @@ class widgetContainer extends WebComponent {
 
   constructor() {
     super();
-    const chatIconToggler = new BubbleIconToggler();
+    const chatIconToggler = new BubbleIconToggler(theme.customIcon);
     const chatContainer = new ChatContainer();
 
     chatIconToggler.onclick = () => chatContainer.toggle();

@@ -25,7 +25,6 @@ export class chatMessage extends WebComponent {
       width: "fit-content",
       height: "fit-content",
       borderRadius: "6px",
-      display: "flex",
       alignItems: "center",
       padding: "15px 15px",
       fontFamily: theme.typography.primary,
@@ -33,7 +32,11 @@ export class chatMessage extends WebComponent {
     });
 
     this.messageBox.classList.add(classes[message.type]);
+
+    if(message.type === "userMessage")
     this.messageBox.innerText = message.message;
+  else
+  this.messageBox.innerHTML = message.message;
 
     if (message.type !== "userMessage") {
       const chatbotBackground = new Box();
@@ -65,7 +68,7 @@ export const getChatMessageStyles = (theme) => ({
     left: 0,
     "background-color": theme.colors.primary,
   },
-  [`${chatMessage.tag} > .from-user`]: {
+  [`${tag} > .from-user`]: {
     "margin-right": "15px",
     "max-width": "70%",
     "background-color": theme.colors.primary,

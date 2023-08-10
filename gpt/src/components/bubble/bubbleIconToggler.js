@@ -1,14 +1,40 @@
+import { theme } from "../../app-state/theme";
+import { Box } from "../box/box";
 import { WebComponent } from "../webComponent";
 
 const tag = "onbotgo-bubble";
 
 export class BubbleIconToggler extends WebComponent {
-  constructor() {
+  constructor(icon) {
     super();
+    this.innerHTML = icon;
+    this.innerHTML = this.isIconValid(icon) ? icon : theme.defaultIcon;
+  }
 
-    this.innerHTML = `
-      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-    `;
+  isIconValid(icon) {
+    if (!icon) return false;
+    const box = new Box();
+    box.innerHTML = icon;
+
+    if (
+      !["svg", "i", "img"].includes(box.children[0]?.tagName?.toLowerCase())
+    ) {
+      console.error(`node is not valid.\n allowed nodes: "svg", "i", "img"`);
+      return false;
+    }
+    
+    const tagsCounter = {};
+    for (let i = 0; i < box.childNodes.length; i++) {
+      const tagName = box.childNodes[i]?.tagName?.toLowerCase();
+      tagsCounter[tagName] = (tagsCounter[tagName] ?? 0) + 1;
+
+      if (["script"].includes(tagName)) {
+        console.error(`Element "<${tagName}>" is not valid.`);
+        return false;
+      }
+    }
+
+    return true;
   }
 }
 

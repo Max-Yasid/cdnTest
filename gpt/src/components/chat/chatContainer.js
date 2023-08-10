@@ -25,6 +25,7 @@ export class ChatContainer extends WebComponent {
     display: "inline-block",
     boxShadow: "rgba(0, 0, 0, 0.16) 0px 5px 40px",
     width: "400px",
+    maxWidth: "calc(100vw - 90px)",
     maxHeight: "704px",
     height: "70vh",
     backgroundColor: "white",
@@ -141,112 +142,6 @@ export const getChatContainerStyles = () => ({
     // "-webkit-animation": "onbotgo-bounce-in-fwd 0.7s ease-in both",
     // animation: "onbotgo-bounce-in-fwd 0.7s ease-in both",
   },
-});
-export const getChatContainerAnimations = () => ({
-  // "@-webkit-keyframes onbotgo-bounce-in-fwd": {
-  //   "0%": `{
-  //     -webkit-transform: scale(0);
-  //             transform: scale(0);
-  //     -webkit-animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //     opacity: 0;
-  //   }`,
-  //   "38%": `{
-  //     -webkit-transform: scale(1);
-  //             transform: scale(1);
-  //     -webkit-animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //     opacity: 1;
-  //   }`,
-  //   "55%": `{
-  //     -webkit-transform: scale(0.7);
-  //             transform: scale(0.7);
-  //     -webkit-animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //   }`,
-  //   "72%": `{
-  //     -webkit-transform: scale(1);
-  //             transform: scale(1);
-  //     -webkit-animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //   }`,
-  //   "81%": `{
-  //     -webkit-transform: scale(0.84);
-  //             transform: scale(0.84);
-  //     -webkit-animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //   }`,
-  //   "89%": `{
-  //     -webkit-transform: scale(1);
-  //             transform: scale(1);
-  //     -webkit-animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //   }`,
-  //   "95%": `{
-  //     -webkit-transform: scale(0.95);
-  //             transform: scale(0.95);
-  //     -webkit-animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //   }`,
-  //   "100%": `{
-  //     -webkit-transform: scale(1);
-  //             transform: scale(1);
-  //     -webkit-animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //   }`,
-  // },
-  // "@keyframes onbotgo-bounce-in-fwd": {
-  //   "0%": `{
-  //     transform: scale(0);
-  //             transform: scale(0);
-  //     animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //     opacity: 0;
-  //   }`,
-  //   "38%": `{
-  //     transform: scale(1);
-  //             transform: scale(1);
-  //     animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //     opacity: 1;
-  //   }`,
-  //   "55%": `{
-  //     transform: scale(0.7);
-  //             transform: scale(0.7);
-  //     animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //   }`,
-  //   "72%": `{
-  //     transform: scale(1);
-  //             transform: scale(1);
-  //     animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //   }`,
-  //   "81%": `{
-  //     transform: scale(0.84);
-  //             transform: scale(0.84);
-  //     animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //   }`,
-  //   "89%": `{
-  //     transform: scale(1);
-  //             transform: scale(1);
-  //     animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //   }`,
-  //   "95%": `{
-  //     transform: scale(0.95);
-  //             transform: scale(0.95);
-  //     animation-timing-function: ease-in;
-  //             animation-timing-function: ease-in;
-  //   }`,
-  //   "100%": `{
-  //     transform: scale(1);
-  //             transform: scale(1);
-  //     animation-timing-function: ease-out;
-  //             animation-timing-function: ease-out;
-  //   }`,
-  // },
 });
 
 ChatContainer.tag = tag;
