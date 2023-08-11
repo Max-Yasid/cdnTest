@@ -69,26 +69,28 @@ export class ChatContainer extends WebComponent {
   onSubmit(message) {
     message = message.trim();
     if (!message) return;
-    try {
-      const history = structuredClone(this.messagesHistory);
-      history.splice(0, 1);
-      const payload = {
-        history,
-        question: message,
-      };
+    const history = structuredClone(this.messagesHistory);
+    history.splice(0, 1);
+    const payload = {
+      history,
+      question: message,
+    };
 
-      this.addMessages([{ message: message, type: "userMessage" }]);
+    this.addMessages([{ message: message, type: "userMessage" }]);
+    this.renderMessages([{ type: "loadingMessage" }]);
+    this.updateScrollbar();
 
-      sendMessage(payload).then((apiMessage) => {
+    sendMessage(payload)
+      .then((apiMessage) => {
         if (!apiMessage.success) throw new Error(apiMessage.msg);
 
         if (apiMessage.data.process.length)
           apiMessage.data.process.forEach((process) => {
             this.addMessages([
               {
-                message: process.content,
                 type: process.role,
                 name: process.name,
+                content: process.content,
               },
             ]);
           });
@@ -96,8 +98,14 @@ export class ChatContainer extends WebComponent {
         this.addMessages([
           { message: apiMessage.data.answer, type: "apiMessage" },
         ]);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        this.messagesContainer
+          .querySelectorAll(".loading-api-message")
+          ?.forEach((node) => node.remove());
+        this.updateScrollbar();
       });
-    } catch (err) {}
   }
 
   toggle() {
@@ -120,10 +128,10 @@ export class ChatContainer extends WebComponent {
     );
   }
 
-  addMessages(messages) {
+  addMessages(messages, { updateScrollbar } = { updateScrollbar: false }) {
     this.messagesHistory = this.messagesHistory.concat(messages);
     this.renderMessages(messages);
-    this.updateScrollbar();
+    if (updateScrollbar) this.updateScrollbar();
   }
 
   updateScrollbar() {
@@ -139,8 +147,6 @@ export class ChatContainer extends WebComponent {
 export const getChatContainerStyles = () => ({
   [`${tag}.hidden`]: {
     visibility: "hidden",
-    // "-webkit-animation": "onbotgo-bounce-in-fwd 0.7s ease-in both",
-    // animation: "onbotgo-bounce-in-fwd 0.7s ease-in both",
   },
 });
 

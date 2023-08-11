@@ -11,7 +11,7 @@ export class chatMessage extends WebComponent {
     this.setStyles({
       width: "100%",
       display: "flex",
-      minHeight: "max(45px,fit-content)",
+      minHeight: "max(45px, fit-content)",
       justifyContent:
         message.type === "userMessage" ? "flex-end" : "flex-start",
     });
@@ -19,6 +19,7 @@ export class chatMessage extends WebComponent {
     const classes = {
       userMessage: "from-user",
       apiMessage: "from-chatbot",
+      loadingMessage: "loading-api-message",
     };
 
     this.messageBox.setStyles({
@@ -33,17 +34,64 @@ export class chatMessage extends WebComponent {
 
     this.messageBox.classList.add(classes[message.type]);
 
-    if(message.type === "userMessage")
-    this.messageBox.innerText = message.message;
-  else
-  this.messageBox.innerHTML = message.message;
-
-    if (message.type !== "userMessage") {
-      const chatbotBackground = new Box();
-      chatbotBackground.classList.add("bg-semi-transp");
-      this.messageBox.appendChild(chatbotBackground);
+    if (message.type === "userMessage")
+      this.messageBox.innerText = message.message;
+    else if (message.type === "loadingMessage") {
+      this.messageBox.appendChild(this.loadingMessageElement);
+      this.messageBox.appendChild(this.createSoftBackgroundColor());
+    } else {
+      this.messageBox.innerHTML = message.message;
+      this.messageBox.appendChild(this.createSoftBackgroundColor());
     }
+
     this.appendChild(this.messageBox);
+  }
+
+  get loadingMessageElement() {
+    const container = new Box();
+    const dot1 = new Box();
+    const dot2 = new Box();
+    const dot3 = new Box();
+
+    container.setStyles({
+      alignItems: "center",
+      display: "flex",
+      height: "17px",
+      gap: "5px",
+    });
+
+    [dot1, dot2, dot3].forEach((dot) =>
+      dot.setStyles({
+        transform: "translateY(2px)",
+        backgroundColor: theme.colors.primary,
+        borderRadius: "50px",
+        height: "10px",
+        verticalAlign: "middle",
+        width: "10px",
+        display: "inline-block",
+      })
+    );
+
+    [dot1, dot2, dot3].forEach((dot, index) =>
+      dot.animate([{ transform: "translateY(-5px)", opacity: 0.2 }], {
+        direction: "alternate-reverse",
+        delay: index * 200,
+        duration: 500,
+        iterations: Infinity,
+      })
+    );
+
+    container.appendChild(dot2);
+    container.appendChild(dot3);
+    container.appendChild(dot1);
+
+    return container;
+  }
+
+  createSoftBackgroundColor() {
+    const chatbotBackground = new Box();
+    chatbotBackground.classList.add("bg-semi-transp");
+    return chatbotBackground;
   }
 }
 
@@ -58,7 +106,7 @@ export const getChatMessageStyles = (theme) => ({
     "max-width": "75%",
     "z-index": 1,
   },
-  [`${tag} > .from-chatbot > .bg-semi-transp`]: {
+  [`${tag} .bg-semi-transp`]: {
     position: "absolute",
     width: "100%",
     height: "100%",
@@ -72,5 +120,10 @@ export const getChatMessageStyles = (theme) => ({
     "margin-right": "15px",
     "max-width": "70%",
     "background-color": theme.colors.primary,
+  },
+  [`${tag} > .loading-api-message`]: {
+    position: "relative",
+    "z-index": 1,
+    overflow: "hidden",
   },
 });

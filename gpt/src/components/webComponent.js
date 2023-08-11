@@ -4,5 +4,5 @@ export class WebComponent extends HTMLElement {
     stylesProps.forEach((prop) => {
       this.style[prop] = styles[prop];
     });
-  }
+  };
 }
