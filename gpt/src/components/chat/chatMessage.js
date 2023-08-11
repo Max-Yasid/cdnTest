@@ -72,9 +72,9 @@ export class chatMessage extends WebComponent {
       })
     );
 
-    [dot1, dot2, dot3].forEach((dot, index) =>
+    [dot1, dot2, dot3].forEach((dot, index) => console.log(index, index *200) ||
       dot.animate([{ transform: "translateY(-5px)", opacity: 0.2 }], {
-        direction: "alternate-reverse",
+        direction: "alternate",
         delay: index * 200,
         duration: 500,
         iterations: Infinity,
