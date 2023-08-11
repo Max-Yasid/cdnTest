@@ -1,5 +1,6 @@
 import { WebComponent } from "../webComponent";
 import { Box } from "../box/box";
+import { theme } from "../../app-state/theme";
 
 const tag = "onbotgo-chatinput";
 export class ChatInput extends WebComponent {
@@ -20,6 +21,7 @@ export class ChatInput extends WebComponent {
     this.setStyles(this.defaultStyles);
     this.input;
     this.input.style.maxWidth = "calc(100vw - 129px - 0px)";
+    this.input.style.fontFamily =  theme.typography.primary;
     this.input.type = "text";
     this.input.placeholder = "Escribe un mensaje";
 
