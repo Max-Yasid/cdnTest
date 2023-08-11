@@ -4,6 +4,8 @@ import { Box } from "../box/box";
 import { chatMessage } from "./chatMessage";
 import { sendMessage } from "../../api/sendMessage";
 import { CustomScrollBar } from "../scrollbar/customScrollbar";
+import { theme } from "../../app-state/theme";
+import { logoSVG } from "../../assets/logo";
 
 const tag = "onbotgo-chatcontainer";
 export class ChatContainer extends WebComponent {
@@ -15,16 +17,21 @@ export class ChatContainer extends WebComponent {
   ];
   scrollableContainer = new Box();
   messagesContainer = new Box();
-  chatInput = new ChatInput();
   scrollBar = new CustomScrollBar();
+
+  chatInput = new ChatInput();
+
+  footer = new Box();
 
   defaultStyles = {
     bottom: "60px",
     right: "10px",
     position: "absolute",
-    display: "inline-block",
+    display: "flex",
     boxShadow: "rgba(0, 0, 0, 0.16) 0px 5px 40px",
+    flexDirection: "column",
     width: "400px",
+    gap: "10px",
     maxWidth: "calc(100vw - 90px)",
     maxHeight: "704px",
     height: "70vh",
@@ -37,17 +44,19 @@ export class ChatContainer extends WebComponent {
     super();
     this.classList.add("hidden");
     this.setStyles(this.defaultStyles);
+
     this.messagesContainer.id = "onbotgo-messageContainer";
     this.scrollBar["data-target-id"] = "scrollableElement";
     this.scrollBar.style.visibility = "hidden";
     this.scrollableContainer.appendChild(this.scrollBar);
     this.scrollableContainer.appendChild(this.messagesContainer);
     this.scrollableContainer.setStyles({
-      height: "88%",
+      height: "85%",
       position: "relative",
       overflow: "hidden",
       marginBottom: "15px",
     });
+
     this.messagesContainer.setStyles({
       height: "calc(100% - 1.5rem)",
       position: "relative",
@@ -60,8 +69,21 @@ export class ChatContainer extends WebComponent {
 
     this.chatInput.onSubmit(this.onSubmit.bind(this));
 
+    this.footer.setStyles({
+      width: '100%',
+      color: '#a1a1a1',
+      display: "flex",
+      alignItems: "center",
+      fontFamily: theme.typography.primary,
+      fontSize: "10px",
+      justifyContent: "flex-end",
+      gap:'5px'
+    });
+    this.footer.innerHTML = `Powered by ONBOTGO LLC. ${logoSVG}`;
+
     this.appendChild(this.scrollableContainer);
     this.appendChild(this.chatInput);
+    this.appendChild(this.footer);
 
     this.renderMessages(this.messagesHistory);
   }
